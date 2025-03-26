@@ -13,7 +13,7 @@
 -------------------------Sensor pin definition Macros-------------------
 -------------------------------------------------------------------------*/
 #define Rain_SensorPin 3
-#define Air_SensorPin A0
+#define Air_SensorPin A3
 #define Temp_Hum_SensorPin 2
 
 
@@ -48,7 +48,7 @@ const uint32_t no_wifi[] = {
 
 //SSID & PASSWORD of LAN Router
 char ssid[] = "Semicon Media";
-char pass[] = "cracksen1605";
+char pass[] = "XXXXXXXXXXXXX";
 
 
 //Variables to hold weather data from sensors
