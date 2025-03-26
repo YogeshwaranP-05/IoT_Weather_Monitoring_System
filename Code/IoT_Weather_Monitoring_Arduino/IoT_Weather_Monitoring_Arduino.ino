@@ -1,3 +1,6 @@
+/*--------------------------------------------------------------
+---------------------------Header Files-------------------------
+----------------------------------------------------------------*/
 #include <Adafruit_BMP085.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
@@ -5,25 +8,37 @@
 #include "Arduino_LED_Matrix.h"
 #include "WiFiS3.h"
 
-// Sensor pin definitions
+
+/*-----------------------------------------------------------------------
+-------------------------Sensor pin definition Macros-------------------
+-------------------------------------------------------------------------*/
 #define Rain_SensorPin 3
 #define Air_SensorPin A0
 #define Temp_Hum_SensorPin 2
 
-//Object instantiation
+
+/*-------------------------------------------------------------------------
+--------------------------Object instantiation-----------------------------
+--------------------------------------------------------------------------*/
 DHT_Unified dht(Temp_Hum_SensorPin, DHT11);
 Adafruit_BMP085 bmp;
 WiFiServer server(80);
-ArduinoLEDMatrix matrix;  //Create an led matrix object
+ArduinoLEDMatrix matrix;  
 
-//Global variables
 
+/*--------------------------------------------------------------------
+-------------------------Global variables----------------------------
+----------------------------------------------------------------------*/
+
+//Bring WiFi Connected Symbol on LED Matrix
 const uint32_t wifi_connected[] = {
     0x3f840,
 		0x49f22084,
 		0xe4110040
 };
 
+
+//Bring WiFi Disconnrcted Symbol on LED Matrix
 const uint32_t no_wifi[] = {
     0x403f844,
 		0x49f22484,
@@ -31,17 +46,26 @@ const uint32_t no_wifi[] = {
 };
 
 
-
+//SSID & PASSWORD of LAN Router
 char ssid[] = "Semicon Media";
 char pass[] = "cracksen1605";
 
+
+//Variables to hold weather data from sensors
 float temperature = 0.0, humidity = 0.0, pressure = 0.0;
 int AQI = 0, rainfall = 0;
 
+//Flag variable for storing last sensor data update time and last wifi connectivity checking time
 unsigned long lastSensorUpdate = 0;
 unsigned long lastWiFiCheck = 0;
 
 
+/*---------------------------------------------------------------------
+-----------------User Defined Functions--------------------------------
+---------------------------------------------------------------------------*/
+
+
+//Function for making Arduino to connect to the WiFi Network
 void wifi_connect(){
 
 
@@ -70,6 +94,7 @@ void wifi_connect(){
 }
 
 
+//Function for making Arduino to reconnect to the WiFi Network, after getting disconnected
 void wifi_reconnect(){
     Serial.println("Wifi Reconnecting........");
     matrix.loadFrame(no_wifi);
@@ -79,10 +104,7 @@ void wifi_reconnect(){
 
 
 
-
-
-
-
+//Functiom to read the weather data from the collection of sensors
 void read_sensor_data(){
     sensors_event_t event;
     dht.temperature().getEvent(&event);
@@ -102,6 +124,7 @@ void read_sensor_data(){
 }
 
 
+//Function to send JSON data to the requested Web client Device(Browser)
 void send_json_data(WiFiClient &client) {
   client.println("HTTP/1.1 200 OK");
   client.println("Content-Type: application/json");
@@ -117,6 +140,9 @@ void send_json_data(WiFiClient &client) {
   client.println(json);
 }
 
+
+
+//Function to send Dynamic weather dashboard webpage to the requested web client(Browser)
 void send_web_page(WiFiClient &client) {
   // Send HTTP headers
   client.println("HTTP/1.1 200 OK");
@@ -241,6 +267,7 @@ void send_web_page(WiFiClient &client) {
 }
 
 
+//Function to run a local webserver on Arduino for handling client request
 void run_local_webserver(){
   WiFiClient client = server.available();
   if (client) {
@@ -258,8 +285,9 @@ void run_local_webserver(){
 }
 
 
-
-
+/*-----------------------------------------------------------------
+-----------------------Setup Function------------------------------
+------------------------------------------------------------------*/
 void setup() {
   Serial.begin(115200);
   while (!Serial) {}
@@ -279,6 +307,11 @@ void setup() {
   }
 }
 
+
+
+/*-----------------------------------------------------------
+-----------------Loop function-------------------------------
+-------------------------------------------------------------*/
 void loop() {
 
  if (millis() - lastSensorUpdate >= 1000) {
