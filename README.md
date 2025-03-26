@@ -64,7 +64,7 @@ This project demonstrates how to build an **IoT Weather Monitoring System** usin
 
   * GND → GND
 
-  * AOUT → Analog Pin (A0)
+  * AOUT → Analog Pin (A3)
 
 * **DHT11 (Temp & Humidity)**:
 
@@ -76,7 +76,7 @@ This project demonstrates how to build an **IoT Weather Monitoring System** usin
 
 * **BMP180 (Pressure Sensor)**:
 
-  * VCC → 3.3V
+  * VCC → 5V
 
   * GND → GND
 
