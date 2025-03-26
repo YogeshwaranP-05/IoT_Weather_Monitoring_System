@@ -167,9 +167,16 @@ We welcome contributions\! 🎯
 
 ---
 
+### **🛡️ License**
+
+This project is licensed under the **GPL-3.0 License**.  
+ Refer to the **`LICENSE`** file for details.
+
+---
+
 ### **📧 Contact**
 
-For any queries or suggestions, reach out via:  
+For any queries or suggestions, reach out via:
 
  🌐 **Official Website:** [https://circuitdigest.com/microcontroller-projects/](https://github.com/YogeshwaranP-05)
 
